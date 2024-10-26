@@ -49,6 +49,7 @@ const Categories: React.FC<CategoriesProps> = ({ setSelectedCategory }) => {
     setActiveCategory(category);
     setSelectedCategory(category);
   };
+  
   return (
     <MainContainer>
       <CategorySectionWrapper>

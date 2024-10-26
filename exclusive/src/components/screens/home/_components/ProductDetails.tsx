@@ -18,14 +18,15 @@ interface BorderWrapperProps {
 interface ProductProps {
   products: {
     id: number;
-    name: string;
+    title: string;
     image: string;
-    rating: number;
     price: string;
     category: string;
-    colors: string[];
-    stock?: string;
-    newLabel?: string;
+    description: string;
+    rating: {
+      rate: number;
+      count: number;
+    };
   }[];
 }
 
@@ -33,18 +34,6 @@ const ProductDetails: React.FC<ProductProps> = ({ products }) => {
   const { id } = useParams<{ id: string }>();
 
   const product = products.find((item) => item.id === Number(id)) || null;
-
-  const [selectedColor, setSelectedColor] = useState<string>("");
-
-  useEffect(() => {
-    if (product && product.colors && product.colors.length > 0) {
-      setSelectedColor(product.colors[0]);
-    }
-  }, [product]);
-
-  const handleColorSelect = (color: string) => {
-    setSelectedColor(color);
-  };
 
   const getStarIcon = (rating: number) => {
     if (rating >= 90) return fiveStar;
@@ -72,62 +61,30 @@ const ProductDetails: React.FC<ProductProps> = ({ products }) => {
         <Wrapper>
           <NavigatedContainer>
             <Home to={"/"}>Home</Home>/
-            <CategoryName>{product.category[0]}</CategoryName>/
-            <ItemName>{product.name}</ItemName>
+            <CategoryName>{product.category}</CategoryName>/
+            <ItemName>{product.title}</ItemName>
           </NavigatedContainer>
 
           <TwoBlockContainer>
             <ProductBorder>
               <ProductImageContainer>
-                <ProductImage
-                  src={require(`../../../../assets/images/${product.image}`)}
-                  alt={product.name}
-                />
+                <ProductImage src={product.image} alt={product.title} />
               </ProductImageContainer>
             </ProductBorder>
 
             <ProductDetailsContainer>
-              <ProductName>{product.name}</ProductName>
+              <ProductName>{product.title}</ProductName>
               <StarRatingContainer>
                 <StarRatingWrapper>
-                  <StarIcon src={getStarIcon(product.rating)} alt="star-icon" />
+                  <StarIcon
+                    src={getStarIcon(product.rating.rate)}
+                    alt="star-icon"
+                  />
                 </StarRatingWrapper>
-                {product.stock ? (
-                  <>
-                    <ProductRating>({product.rating} Reviews)</ProductRating> |
-                    <IsStock>{product.stock}</IsStock>
-                  </>
-                ) : (
-                  <>
-                    <ProductRating>({product.rating} Reviews)</ProductRating> |
-                    <IsNotStock>Out of stock</IsNotStock>
-                  </>
-                )}
+                <RatingCount>({product.rating.count})</RatingCount>
               </StarRatingContainer>
-              <ProductPrice>{product.price}</ProductPrice>
-              <ProductDescription>
-                PlayStation 5 Controller Skin High quality vinyl with air
-                channel adhesive for easy bubble-free install & mess-free
-                removal. Pressure sensitive.
-              </ProductDescription>
-              <ColorSelection>
-                Colors:
-                {product.colors && product.colors.length > 0 ? (
-                  product.colors.map((color) => (
-                    <BorderWrapper
-                      key={color}
-                      $isActive={color === selectedColor}
-                      onClick={() => handleColorSelect(color)}
-                    >
-                      <ColorCircle style={{ backgroundColor: color }} />
-                    </BorderWrapper>
-                  ))
-                ) : (
-                  <span style={{ fontSize: "14px", color: "#ff0000" }}>
-                    No color options available
-                  </span>
-                )}
-              </ColorSelection>
+              <ProductPrice>${product.price}</ProductPrice>
+              <ProductDescription>{product.description}</ProductDescription>
               <DeliveryInfoContainer>
                 <FreeDeliveryContainer>
                   <ImageWrapper>
@@ -218,8 +175,8 @@ const ProductBorder = styled.div`
   width: 65%;
   display: flex;
   justify-content: center;
-  border: 1px solid #f5f5f5;
-  background: #f5f5f5;
+  border: 1px solid #000;
+  background: #fff;
   border-radius: 4px;
 
   @media (max-width: 980px) {
@@ -230,6 +187,9 @@ const ProductBorder = styled.div`
 const ProductImageContainer = styled.div`
   align-self: center;
   padding: 160px 0;
+  width: 115px;
+  height: 150px;
+  display: flex;
 
   @media (max-width: 980px) {
     padding: 60px 0;
@@ -238,6 +198,7 @@ const ProductImageContainer = styled.div`
 
 const ProductImage = styled.img`
   max-width: 100%;
+  display: block;
   height: auto;
 `;
 
@@ -271,36 +232,6 @@ const StarIcon = styled.img`
   }
 `;
 
-const ProductRating = styled.div`
-  font-size: 14px;
-  font-weight: 400;
-  color: #7f7f7f;
-
-  @media (max-width: 640px) {
-    font-size: 13px;
-  }
-`;
-
-const IsStock = styled.div`
-  color: #00ff66;
-  font-size: 14px;
-  font-weight: 400;
-
-  @media (max-width: 640px) {
-    font-size: 13px;
-  }
-`;
-
-const IsNotStock = styled.div`
-  color: #ff0000;
-  font-size: 14px;
-  font-weight: 400;
-
-  @media (max-width: 640px) {
-    font-size: 13px;
-  }
-`;
-
 const ProductPrice = styled.span`
   font-weight: 400;
   font-size: 24px;
@@ -310,12 +241,20 @@ const ProductPrice = styled.span`
   }
 `;
 
+
+const RatingCount = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+`;
+
+
 const ProductDescription = styled.p`
   margin: 0;
   font-size: 14px;
   font-weight: 400;
   font-family: regular;
-  padding: 12px 0 15px 0;
+  padding: 12px 0 35px 0;
   border-bottom: 1px solid #9a9a9a;
 
   @media (max-width: 640px) {
@@ -323,40 +262,11 @@ const ProductDescription = styled.p`
   }
 `;
 
-const ColorSelection = styled.div`
-  display: flex;
-  gap: 8px;
-  font-size: 20px;
-  font-weight: 400;
-  align-items: center;
-  margin: 0;
-  padding: 20px 0;
-
-  @media (max-width: 640px) {
-    font-size: 18px;
-  }
-`;
-
-const BorderWrapper = styled.div<BorderWrapperProps>`
-  border: 2px solid ${(props) => (props.$isActive ? "#000" : "transparent")};
-  border-radius: 50%;
-  padding: 2px;
-  cursor: pointer;
-  width: 18px;
-  height: 18px;
-  transition: border 0.3s ease;
-`;
-
-const ColorCircle = styled.div`
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-`;
-
 const DeliveryInfoContainer = styled.div`
   border: 1px solid #9a9a9a;
   padding: 17px 0;
   border-radius: 4px;
+  margin-top: 40px;
 `;
 
 const FreeDeliveryText = styled.span`
