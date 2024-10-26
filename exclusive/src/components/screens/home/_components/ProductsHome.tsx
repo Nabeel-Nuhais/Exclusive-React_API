@@ -13,46 +13,52 @@ interface Product {
   image: string;
   price: number;
   title: string;
+  category: string;
   rating: {
     rate: number;
     count: number;
   };
 }
 
-const ProductsHome = () => {
+interface ProductsHomeProps {
+  selectedCategory: string | null;
+}
+
+const ProductsHome: React.FC<ProductsHomeProps> = ({ selectedCategory }) => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     axios
-      .get("http://fakestoreapi.com/products/")
-      .then(function (response) {
-        console.log(response.data);
+      .get("/products/")
+      .then((response) => {
         setProducts(response.data);
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+      .catch((error) => console.log(error));
   }, []);
 
-  const navigate = useNavigate();
+  const filteredProducts = selectedCategory
+    ? products.filter((product) => product.category === selectedCategory.toLowerCase())
+    : products;
 
-  const handleViewAllClick = () => {
-    navigate("/products");
-  };
+    const navigate = useNavigate();
 
-  const getStarIcon = (rating) => {
-    if (rating >= 90) return fiveStar;
-    if (rating >= 75) return fourHalfStar;
-    if (rating >= 60) return fourStar;
-    return threeStar;
-  };
+    const handleViewAllClick = () => {
+      navigate("/products");
+    };
+
+    const getStarIcon = (rating) => {
+      if (rating >= 5) return fiveStar;
+      if (rating >= 4.5) return fourHalfStar;
+      if (rating >= 3) return fourStar;
+      return threeStar;
+    };
 
   return (
     <>
       <MainContainer>
         <CardWrapper>
           <ProductContainer>
-            {products?.slice(0, 8).map((product) => (
+            {filteredProducts?.slice(0, 8).map((product) => (
               <ProductContent key={product.id}>
                 <TopContainer to={`/product/${product.id}`}>
                   <ProductImageWrapper>
@@ -61,19 +67,13 @@ const ProductsHome = () => {
                   <TopRightContainer>
                     <LikeIconWrapper>
                       <LikeIcon
-                        src={
-                          require("../../../../assets/images/icons/heart.svg")
-                            .default
-                        }
+                        src={require("../../../../assets/images/icons/heart.svg").default}
                         alt="like-icon"
                       />
                     </LikeIconWrapper>
                     <ViewIconWrapper>
                       <ViewIcon
-                        src={
-                          require("../../../../assets/images/icons/view.svg")
-                            .default
-                        }
+                        src={require("../../../../assets/images/icons/view.svg").default}
                         alt="view-icon"
                       />
                     </ViewIconWrapper>
@@ -215,6 +215,8 @@ const ProductContent = styled.div`
 const ProductImageWrapper = styled.div`
   align-self: center;
   width: 115px;
+  height: 150px;
+  display: flex;
 `;
 
 const ProductImage = styled.img`

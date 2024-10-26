@@ -1,18 +1,54 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import electronicsIcon from "../../../../assets/images/icons/electronics.svg";
+import jeweleryIcon from "../../../../assets/images/icons/jewelry.svg";
+import mensIcon from "../../../../assets/images/icons/mens.svg";
+import womensIcon from "../../../../assets/images/icons/womens.svg";
 
 interface CategoryProps {
   $active: boolean;
 }
 
-const Categories = ({ categoryItems, handleCategoryChange }) => {
-  const [activeCategory, setActiveCategory] = useState(null);
+const categoryIcons = {
+  electronics: electronicsIcon,
+  jewelery: jeweleryIcon,
+  "men's clothing": mensIcon, 
+  "women's clothing": womensIcon, 
+};
+const normalizeCategory = (category: string): string => {
+  switch (category.toLowerCase()) {
+    case "mens":
+    case "men's clothing":
+      return "men's clothing";
+    case "womens":
+    case "women's clothing":
+      return "women's clothing";
+    case "jewelry":
+    case "jewelery":
+      return "jewelery";
+    default:
+      return category.toLowerCase();
+  }
+};
+interface CategoriesProps {
+  setSelectedCategory: (category: string | null) => void;
+}
+
+const Categories: React.FC<CategoriesProps> = ({ setSelectedCategory }) => {
+
+  const categoryItems = [
+    "Electronics",
+    "Jewelery",
+    "Men's Clothing",
+    "Women's Clothing",
+  ];
+
+  const [activeCategory, setActiveCategory] = useState("");
 
   const handleCategoryClick = (category) => {
-    setActiveCategory(category.name);
-    handleCategoryChange(category.name);
+    setActiveCategory(category);
+    setSelectedCategory(category);
   };
-
   return (
     <MainContainer>
       <CategorySectionWrapper>
@@ -37,15 +73,20 @@ const Categories = ({ categoryItems, handleCategoryChange }) => {
               <CategoryItem
                 key={index}
                 onClick={() => handleCategoryClick(category)}
-                $active={activeCategory === category.name}
+                $active={activeCategory === category}
               >
+                <WidthWrapper>
                 <IconWrapper>
                   <GamingIcon
-                    src={require(`../../../../assets/images/icons/${category.image}`)}
-                    alt="gaming-icon"
+                    src={
+                      categoryIcons[normalizeCategory(category)] ||
+                      categoryIcons["electronics"]
+                    }
+                    alt={`${category}-icon`}
                   />
                 </IconWrapper>
-                <CategoryName>{category.name}</CategoryName>
+                </WidthWrapper>
+                <CategoryName>{category}</CategoryName>
               </CategoryItem>
             ))}
           </ItemsGrid>
@@ -73,6 +114,12 @@ const CategoryHeader = styled.div`
 `;
 
 const IconWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 50px;
+`;
+
+const WidthWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
@@ -107,14 +154,10 @@ const CategoryItems = styled.div``;
 
 const ItemsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 15px;
 
   @media (max-width: 980px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media (max-width: 480px) {
     grid-template-columns: repeat(2, 1fr);
   }
 `;
@@ -150,6 +193,8 @@ const CategoryName = styled.p`
 `;
 
 const GamingIcon = styled.img`
+  display: block;
+  width: 100%;
   @media (max-width: 980px) {
     width: 38px;
   }

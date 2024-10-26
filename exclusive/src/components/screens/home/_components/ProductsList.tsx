@@ -27,7 +27,7 @@ const ProductsList = () => {
 
   useEffect(() => {
     axios
-      .get("http://fakestoreapi.com/products/")
+      .get("/products/")
       .then(function (response) {
         console.log(response.data);
         setProducts(response.data);
@@ -194,7 +194,7 @@ const ViewIcon = styled.img`
 const ProductContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
+  gap: 60px;
   border-bottom: 1px solid #b3b3b3;
   padding-bottom: 30px;
 
@@ -225,6 +225,8 @@ const ProductContent = styled.div`
 const ProductImageWrapper = styled.div`
   align-self: center;
   width: 115px;
+  height: 150px;
+  display: flex;
 `;
 
 const ProductImage = styled.img`
