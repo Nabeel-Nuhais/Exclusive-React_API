@@ -1,46 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import TopBar from "../../../includes/TopBar.tsx";
 import Header from "../../../includes/Header.tsx";
 import Footer from "../../../includes/Footer.tsx";
-import allProducts from "../../../helpers/products.json";
+import axios from "axios";
 import threeStar from "../../../../assets/images/icons/three-star.svg";
 import fourStar from "../../../../assets/images/icons/four-star.svg";
 import fourHalfStar from "../../../../assets/images/icons/four-half-star.svg";
 import fiveStar from "../../../../assets/images/icons/five-star.svg";
 
-interface BorderWrapperProps {
-  $isActive: boolean;
+interface Product {
+  id: number;
+  name: string;
+  image: string;
+  price: number;
+  title: string;
+  rating: {
+    rate: number;
+    count: number;
+  };
 }
 
 const ProductsList = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    axios
+      .get("http://fakestoreapi.com/products/")
+      .then(function (response) {
+        console.log(response.data);
+        setProducts(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
   const getStarIcon = (rating) => {
-    if (rating >= 90) return fiveStar;
-    if (rating >= 75) return fourHalfStar;
-    if (rating >= 60) return fourStar;
+    if (rating >= 5) return fiveStar;
+    if (rating >= 4.5) return fourHalfStar;
+    if (rating >= 3) return fourStar;
     return threeStar;
-  };
-
-  const location = useLocation();
-
-  const productItems =
-    location.state?.productItems || allProducts.products || [];
-
-  const initialSelectedColors = productItems.reduce((acc, product) => {
-    if (product.colors && product.colors.length > 0) {
-      acc[product.id] = product.colors[0];
-    }
-    return acc;
-  }, {});
-
-  const [selectedColors, setSelectedColors] = useState(initialSelectedColors);
-
-  const handleColorSelect = (color, productId) => {
-    setSelectedColors((prev) => ({
-      ...prev,
-      [productId]: color,
-    }));
   };
 
   return (
@@ -63,24 +64,11 @@ const ProductsList = () => {
           </NavigationContainer>
 
           <ProductContainer>
-            {productItems?.map((product, index) => (
+            {products?.map((product) => (
               <ProductContent key={product.id}>
                 <TopContainer to={`/product/${product.id}`}>
-                  {product["new-label"] && (
-                    <NewArrival>
-                      <NewLabel>{product["new-label"]}</NewLabel>
-                    </NewArrival>
-                  )}
-                  {product["discount-label"] && (
-                    <DiscountOffer>
-                      <DiscountLabel>{product["discount-label"]}</DiscountLabel>
-                    </DiscountOffer>
-                  )}
                   <ProductImageWrapper>
-                    <ProductImage
-                      src={require(`../../../../assets/images/${product.image}`)}
-                      alt="product-image"
-                    />
+                    <ProductImage src={product.image} alt="product-image" />
                   </ProductImageWrapper>
                   <TopRightContainer>
                     <LikeIconWrapper>
@@ -105,39 +93,22 @@ const ProductsList = () => {
                   <AddToCartButton>Add To Cart</AddToCartButton>
                 </TopContainer>
                 <ProductDetails>
-                  <ProductName>{product.name}</ProductName>
+                  <ProductName>{product.title}</ProductName>
                   <PriceAndRatingContainer>
-                    {product["offer-price"] ? (
-                      <>
-                        <ProductPrice>{product["offer-price"]}</ProductPrice>
-                        <OriginalPrice>{product.price}</OriginalPrice>
-                      </>
-                    ) : (
-                      <ProductPrice>{product.price}</ProductPrice>
-                    )}
+                    <ProductPrice>${product.price}</ProductPrice>
                     <StarRatingWrapper>
                       <StarIcon
-                        src={getStarIcon(product.rating)}
+                        src={getStarIcon(product.rating.rate)}
                         alt="star-icon"
                       />
                     </StarRatingWrapper>
-                    <RatingCount>({product.rating})</RatingCount>
+                    <RatingCount>({product.rating.count})</RatingCount>
                   </PriceAndRatingContainer>
-                  <ColorSelection>
-                    {product.colors?.map((color) => (
-                      <BorderWrapper
-                        key={color}
-                        $isActive={color === selectedColors[product.id]}
-                        onClick={() => handleColorSelect(color, product.id)}
-                      >
-                        <ColorCircle style={{ backgroundColor: color }} />
-                      </BorderWrapper>
-                    ))}
-                  </ColorSelection>
                 </ProductDetails>
               </ProductContent>
             ))}
           </ProductContainer>
+
         </CardWrapper>
       </MainContainer>
 
@@ -175,9 +146,9 @@ const TopContainer = styled(Link)`
   display: flex;
   text-decoration: none;
   justify-content: center;
-  border: 1px solid #f5f5f5;
+  border: 1px solid #000;
   padding: 30px 0;
-  background: #f5f5f5;
+  background: #fff;
   border-radius: 4px;
   height: 60%;
   cursor: pointer;
@@ -190,40 +161,6 @@ const TopContainer = styled(Link)`
   @media (max-width: 1280px) {
     padding: 15px 0;
   }
-`;
-
-const NewArrival = styled.div`
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  background: #00ff66;
-  border: 1px solid #00ff66;
-  border-radius: 4px;
-  color: #fafafa;
-  padding: 4px 12px;
-`;
-
-const NewLabel = styled.p`
-  margin: 0;
-  font-size: 12px;
-  font-weight: 400;
-`;
-
-const DiscountOffer = styled.div`
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  background: #db4444;
-  border: 1px solid #db4444;
-  border-radius: 4px;
-  color: #fafafa;
-  padding: 4px 12px;
-`;
-
-const DiscountLabel = styled.p`
-  margin: 0;
-  font-size: 12px;
-  font-weight: 400;
 `;
 
 const TopRightContainer = styled.div`
@@ -287,14 +224,16 @@ const ProductContent = styled.div`
 
 const ProductImageWrapper = styled.div`
   align-self: center;
+  width: 115px;
 `;
 
 const ProductImage = styled.img`
+  display: block;
+  width: 100%;
   @media (max-width: 980px) {
     width: 95px;
   }
 `;
-
 const ProductDetails = styled.div``;
 
 const ProductName = styled.h3`
@@ -313,46 +252,10 @@ const PriceAndRatingContainer = styled.div`
   gap: 12px;
 `;
 
-const ColorSelection = styled.div`
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
-
-  @media (max-width: 540px) {
-    margin-top: 0px;
-  }
-`;
-
-const BorderWrapper = styled.div<BorderWrapperProps>`
-  border: 2px solid ${(props) => (props.$isActive ? "#000" : "transparent")};
-  border-radius: 50%;
-  padding: 2px;
-  cursor: pointer;
-  width: 18px;
-  height: 18px;
-`;
-
-const ColorCircle = styled.div`
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-`;
-
 const ProductPrice = styled.span`
   color: #db4444;
   font-size: 16px;
   font-weight: 500;
-
-  @media (max-width: 640px) {
-    font-size: 14px;
-  }
-`;
-
-const OriginalPrice = styled.span`
-  color: #7f7f7f;
-  font-size: 15px;
-  font-weight: 500;
-  text-decoration: line-through;
 
   @media (max-width: 640px) {
     font-size: 14px;
