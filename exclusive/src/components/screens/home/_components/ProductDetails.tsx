@@ -1,19 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import TopBar from "../../../includes/TopBar.tsx";
 import Header from "../../../includes/Header.tsx";
 import Footer from "../../../includes/Footer.tsx";
 import RelatedItems from "./RelatedItems.tsx";
-import productsData from "../../../helpers/products.json";
 import threeStar from "../../../../assets/images/icons/three-star.svg";
 import fourStar from "../../../../assets/images/icons/four-star.svg";
 import fourHalfStar from "../../../../assets/images/icons/four-half-star.svg";
 import fiveStar from "../../../../assets/images/icons/five-star.svg";
-
-interface BorderWrapperProps {
-  $isActive: boolean;
-}
 
 interface ProductProps {
   products: {
@@ -35,22 +30,20 @@ const ProductDetails: React.FC<ProductProps> = ({ products }) => {
 
   const product = products.find((item) => item.id === Number(id)) || null;
 
-  const getStarIcon = (rating: number) => {
-    if (rating >= 90) return fiveStar;
-    if (rating >= 75) return fourHalfStar;
-    if (rating >= 60) return fourStar;
+  const relatedItems = products.filter(
+    (item) => item.category === product.category && item.id !== product.id
+  );
+
+  const getStarIcon = (rating) => {
+    if (rating >= 5) return fiveStar;
+    if (rating >= 4.5) return fourHalfStar;
+    if (rating >= 3) return fourStar;
     return threeStar;
   };
 
   if (!product) {
     return <div>Product not found</div>;
   }
-
-  const relatedItems = productsData.products.filter(
-    (item) =>
-      item.category.some((cat) => product.category.includes(cat)) &&
-      item.id !== product.id
-  );
 
   return (
     <>
@@ -241,13 +234,11 @@ const ProductPrice = styled.span`
   }
 `;
 
-
 const RatingCount = styled.span`
   font-size: 14px;
   font-weight: 500;
   color: #000;
 `;
-
 
 const ProductDescription = styled.p`
   margin: 0;
