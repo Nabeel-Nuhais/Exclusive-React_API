@@ -1,0 +1,203 @@
+{
+  "categories": [
+    { "id": 1, "name": "Gaming", "image": "Gamepad.svg" },
+    { "id": 2, "name": "Computers", "image": "Computer.svg" },
+    { "id": 3, "name": "Camera", "image": "Camera.svg" },
+    { "id": 4, "name": "Phones", "image": "CellPhone.svg" },
+    { "id": 5, "name": "SmartWatch", "image": "SmartWatch.svg" },
+    { "id": 6, "name": "HeadPhones", "image": "eadphone.svg" }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Breed Dry Dog Food",
+      "price": "$100",
+      "rating": 35,
+      "category": ["Others"],
+      "image": "dog-food.png"
+    },
+    {
+      "id": 2,
+      "name": "CANON EOS DSLR Camera",
+      "price": "$360",
+      "rating": 95,
+      "category": ["Camera"],
+      "image": "cannon-camera.png",
+      "stock": "In Stock"
+    },
+    {
+      "id": 3,
+      "name": "ASUS FHD Gaming Laptop",
+      "price": "$700",
+      "rating": 325,
+      "category": ["Gaming", "Computers"],
+      "image": "asus-lap.png",
+      "stock": "In Stock"
+    },
+    {
+      "id": 4,
+      "name": "Curology Product Set",
+      "price": "$500",
+      "rating": 145,
+      "category": ["Others"],
+      "image": "conditioner.png"
+    },
+    {
+      "id": 5,
+      "name": "Kids Electric Car",
+      "new-label": "NEW",
+      "price": "$980",
+      "rating": 65,
+      "category": ["Others"],
+      "image": "red-car-toy.png",
+      "stock": "In Stock",
+      "colors": ["#ff0000", "#DB4444"]
+    },
+    {
+      "id": 6,
+      "name": "Jr. Zoom Soccer Cleats",
+      "price": "$1160",
+      "rating": 35,
+      "category": ["Others"],
+      "image": "yellow-boot.png",
+      "colors": ["#EEFF61", "#DB4444"]
+    },
+    {
+      "id": 7,
+      "name": "GP11 Shooter USB Gamepad",
+      "new-label": "NEW",
+      "price": "$660",
+      "rating": 55,
+      "category": ["Gaming"],
+      "image": "black-controller.png",
+      "colors": ["#000", "#DB4444"]
+    },
+    {
+      "id": 8,
+      "name": "Quilted Satin Jacket",
+      "price": "$660",
+      "rating": 55,
+      "category": ["Others"],
+      "image": "jacket.png",
+      "stock": "In Stock",
+      "colors": ["#184A48", "#DB4444"]
+    },
+    {
+      "id": 9,
+      "name": "HAVIT HV-G92 Gamepad",
+      "discount-label": "-45%",
+      "offer-price": "$120",
+      "price": "$160",
+      "rating": 88,
+      "category": ["Gaming"],
+      "image": "red-controller.png"
+    },
+    {
+      "id": 10,
+      "name": "AK-900 Wired Keyboard",
+      "discount-label": "-35%",
+      "offer-price": "$960",
+      "price": "$1160",
+      "rating": 75,
+      "category": ["Gaming"],
+      "image": "keyboard.png",
+      "stock": "In Stock"
+    },
+    {
+      "id": 11,
+      "name": "IPS LCD Gaming Monitor",
+      "discount-label": "-30%",
+      "offer-price": "$370",
+      "price": "$400",
+      "rating": 99,
+      "category": ["Gaming", "Computers"],
+      "image": "monitor.png",
+      "stock": "In Stock"
+    },
+    {
+      "id": 12,
+      "name": "RGB Liquid CPU Cooler",
+      "offer-price": "$160",
+      "price": "$170",
+      "rating": 65,
+      "category": ["Gaming"],
+      "image": "cpu-cooler.png",
+      "stock": "In Stock"
+    },
+    {
+      "id": 13,
+      "name": "Breed Dry Dog Food",
+      "price": "$100",
+      "rating": 35,
+      "category": ["Others"],
+      "image": "dog-food.png"
+    },
+    {
+      "id": 14,
+      "name": "CANON EOS DSLR Camera",
+      "price": "$360",
+      "rating": 95,
+      "category": ["Camera"],
+      "image": "cannon-camera.png",
+      "stock": "In Stock"
+    },
+    {
+      "id": 15,
+      "name": "ASUS FHD Gaming Laptop",
+      "price": "$700",
+      "rating": 325,
+      "category": ["Gaming", "Computers"],
+      "image": "asus-lap.png",
+      "stock": "In Stock"
+    },
+    {
+      "id": 16,
+      "name": "Curology Product Set",
+      "price": "$500",
+      "rating": 145,
+      "category": ["Others"],
+      "image": "conditioner.png"
+    },
+    {
+      "id": 17,
+      "name": "Kids Electric Car",
+      "new-label": "NEW",
+      "price": "$980",
+      "rating": 65,
+      "category": ["Others"],
+      "image": "red-car-toy.png",
+      "stock": "In Stock",
+      "colors": ["#ff0000", "#DB4444"]
+    },
+    {
+      "id": 18,
+      "name": "Jr. Zoom Soccer Cleats",
+      "price": "$1160",
+      "rating": 35,
+      "category": ["Others"],
+      "image": "yellow-boot.png",
+      "stock": "In Stock",
+      "colors": ["#EEFF61", "#DB4444"]
+    },
+    {
+      "id": 19,
+      "name": "GP11 Shooter USB Gamepad",
+      "new-label": "NEW",
+      "price": "$660",
+      "rating": 55,
+      "category": ["Gaming"],
+      "image": "black-controller.png",
+      "stock": "In Stock",
+      "colors": ["#000", "#DB4444"]
+    },
+    {
+      "id": 20,
+      "name": "Quilted Satin Jacket",
+      "price": "$660",
+      "rating": 55,
+      "category": ["Others"],
+      "image": "jacket.png",
+      "colors": ["#184A48", "#DB4444"]
+    }
+  ]
+}
