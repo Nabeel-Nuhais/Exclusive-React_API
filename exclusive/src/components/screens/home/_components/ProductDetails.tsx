@@ -168,8 +168,8 @@ const ProductBorder = styled.div`
   width: 65%;
   display: flex;
   justify-content: center;
-  border: 1px solid #000;
-  background: #fff;
+  border: 1px solid #f5f5f5;
+  background: #f5f5f5;
   border-radius: 4px;
 
   @media (max-width: 980px) {
@@ -244,7 +244,7 @@ const ProductDescription = styled.p`
   margin: 0;
   font-size: 14px;
   font-weight: 400;
-  font-family: regular;
+  font-family: poppinsregular;
   padding: 12px 0 35px 0;
   border-bottom: 1px solid #9a9a9a;
 

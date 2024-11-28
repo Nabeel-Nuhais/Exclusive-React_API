@@ -142,22 +142,21 @@ const Footer = () => {
               </Content>
             </DownloadSection>
           </TopSection>
-
-          <BottomSection>
-            <FooterTextContainer>
-              <CopyrightWrapper>
-                <CopyrightIcon
-                  src={
-                    require("../../assets/images/icons/icon-copyright.svg")
-                      .default
-                  }
-                  alt="copyright-icon"
-                />
-              </CopyrightWrapper>
-              <FooterText>Copyright Rimel 2022. All right reserved</FooterText>
-            </FooterTextContainer>
-          </BottomSection>
         </Container>
+        <BottomSection>
+          <FooterTextContainer>
+            <CopyrightWrapper>
+              <CopyrightIcon
+                src={
+                  require("../../assets/images/icons/icon-copyright.svg")
+                    .default
+                }
+                alt="copyright-icon"
+              />
+            </CopyrightWrapper>
+            <FooterText>Copyright Rimel 2022. All right reserved</FooterText>
+          </FooterTextContainer>
+        </BottomSection>
       </FooterMainContainer>
     </>
   );
@@ -166,12 +165,12 @@ const Footer = () => {
 const FooterMainContainer = styled.footer`
   width: 100%;
   background-color: #000;
-  display: flex;
   justify-content: center;
   margin-top: 60px;
 `;
 const Container = styled.div`
   max-width: 100%;
+  margin: 0 auto;
   width: 75%;
 `;
 const TopSection = styled.div`
@@ -182,7 +181,7 @@ const TopSection = styled.div`
   @media (max-width: 1280px) {
     flex-wrap: wrap;
   }
-  
+
   @media (max-width: 980px) {
     justify-content: normal;
     gap: 30px;
@@ -331,7 +330,8 @@ const TwitterIcon = styled.img``;
 const InstagramIcon = styled.img``;
 const LinkedInIcon = styled.img``;
 
-const BottomSection = styled.div``;
+const BottomSection = styled.div`
+border-top: 1px solid #141414; `;
 const FooterTextContainer = styled.div`
   display: flex;
   justify-content: center;

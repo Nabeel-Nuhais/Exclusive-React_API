@@ -137,9 +137,9 @@ const TopContainer = styled(Link)`
   display: flex;
   text-decoration: none;
   justify-content: center;
-  border: 1px solid #000;
+  border: 1px solid #f5f5f5;
   padding: 30px 0;
-  background: #fff;
+  background: #f5f5f5;
   border-radius: 4px;
   height: 60%;
   cursor: pointer;

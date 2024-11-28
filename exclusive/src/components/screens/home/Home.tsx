@@ -6,6 +6,7 @@ import Footer from "../../includes/Footer.tsx";
 import Categories from "./_components/Categories.tsx";
 import ProductsHome from "./_components/ProductsHome.tsx";
 import Services from "./_components/Services.tsx";
+import "../../../App.css"
 
 const Home: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
